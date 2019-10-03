@@ -1,13 +1,13 @@
 
 #created on 2019/9/17　@auther SHU
-
+#python visa 使い方
 import time
 import visa
 rm =visa.ResourceManager()
 rm.list_resources()
 instr=rm.open_resource('USB0::0x2A8D::0x0201::MY57700883::0::INSTR')
 
-for i in range(10):
+
 instr.write("MEAS:RES?")
 instr.write("MEAS:CURR:DC?")
 instr.write("MEAS:VOLT:DC?")
