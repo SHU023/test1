@@ -1,0 +1,10 @@
+import time
+print("おはよう")
+time.sleep(1)
+print("こんにちは")
+time.sleep(2)
+print("こんばんは")
+time.sleep(3)
+print("おはよう")
+time.sleep(10)
+print("こんにちは")
