@@ -1,109 +1,59 @@
-# Copyright (c) 2018-2019 Squary
-
-# Released under the MIT license
-
-# https://opensource.org/licenses/MIT
-
-
-
-FROM frolvlad/alpine-glibc:alpine-3.8_glibc-2.28
-
-
-
-LABEL maintainer="Squary"
-
-
-
-ENV PATH /usr/local/texlive/2018/bin/x86_64-linux/:$PATH
-
-
-
-RUN apk update && \
-
-    apk add --no-cache bash gnupg perl wget xz && \
-
-    apk add --no-cache --virtual=tl-unx tar fontconfig && \
-
-    mkdir /tmp/install-tl-unx && \
-
-    wget -qO - http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | \
-
-    tar -xz -C /tmp/install-tl-unx --strip-components=1 && \
-
-    printf "%s\n" \
-
-      "selected_scheme scheme-basic" \
-
-      "collection-basic 1" \
-
-      "collection-fontsrecommended 1" \
-
-      "collection-langjapanese 1" \
-
-      "collection-latex 1" \
-
-      "collection-latexrecommended 1" \
-
-      "collection-latexextra 1" \
-
-      "tlpdbopt_install_docfiles 0" \
-
-      "tlpdbopt_install_srcfiles 0" \
-
-      > /tmp/install-tl-unx/texlive.profile && \
-
-    /tmp/install-tl-unx/install-tl \
-
-      -force-platform x86_64-linux \
-
-      -profile /tmp/install-tl-unx/texlive.profile && \
-
-    tlmgr option repository ctan && \
-
-    tlmgr install latexmk && \
-
-    rm -rf /tmp/install-tl-unx && \
-
-    apk del --purge tl-unx
-
-
-
-RUN cd $(kpsewhich -var-value=TEXMFLOCAL) && \
-
-    mkdir -p \
-
-      fonts/opentype/google/notosanscjk \
-
-      fonts/opentype/google/notoserifcjk && \
-
-    wget -qP fonts/opentype/google/notosanscjk \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSansCJK-Regular.ttc \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSansCJK-Medium.ttc \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSansCJK-Bold.ttc \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSansCJK-Black.ttc && \
-
-    wget -qP fonts/opentype/google/notoserifcjk \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSerifCJK-Light.ttc \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSerifCJK-Regular.ttc \
-
-      https://github.com/googlei18n/noto-cjk/raw/master/NotoSerifCJK-Bold.ttc && \
-
-    mktexlsr
-
-
-
-WORKDIR /workdir
-
-
-
-VOLUME ["/workdir"]
-
-
-
-CMD ["bash"]
+\documentclass[a4paper,11pt,oneside,openany]{jsbook}
+%
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{ascmac}
+%
+\setlength{\textwidth}{\fullwidth}
+\setlength{\textheight}{40\baselineskip}
+\addtolength{\textheight}{\topskip}
+\setlength{\voffset}{-0.55in}
+%
+\begin{document}
+% START DOCUMENT
+%
+% COVER
+\begin{center}
+  \huge 平成..年度 ....\par
+  \vspace{15mm}
+  \huge 論文の種類 \par
+  \vspace{15mm}
+  \LARGE タイトル \par
+  \vspace{100mm}
+  \Large ...日付 \par
+  \vspace{15mm}
+  \Large ...研究室 \par
+  \vspace{10mm}
+  \Large ..学籍番号..　　　指導教員 ...\par
+  \vspace{10mm}
+\end{center}
+\thispagestyle{empty}
+\clearpage
+\addtocounter{page}{-1}
+\newpage
+\setcounter{tocdepth}{3}
+%
+\tableofcontents
+%
+\chapter{はじめに}
+%
+\chapter{研究タイトル}
+\section{研究背景と目的}
+\section{}
+\section{まとめと今後の課題}
+\newpage
+%
+\chapter{おわりに}
+\newpage
+%
+\section*{謝辞}
+\addcontentsline{toc}{chapter}{謝辞}
+%
+\begin{thebibliography}{99}
+  \bibitem{1}
+\end{thebibliography}
+%
+% END DOCUMENT
+\end{document}
